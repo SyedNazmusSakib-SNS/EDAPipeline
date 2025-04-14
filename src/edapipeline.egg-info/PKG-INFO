@@ -20,76 +20,103 @@ Requires-Dist: seaborn
 Requires-Dist: scipy
 Dynamic: license-file
 
-```markdown
-# EDAPipeline
+# EDAPipeline: Automated Exploratory Data Analysis Toolkit
 
-A comprehensive Exploratory Data Analysis (EDA) toolkit that streamlines the process of analyzing datasets through visualization and statistical methods.
+**EDAPipeline** is a comprehensive and automated Python toolkit designed to streamline and simplify the Exploratory Data Analysis (EDA) process. This library helps data scientists, analysts, and engineers efficiently understand data distributions, detect outliers, visualize relationships, and uncover meaningful insights from datasets—all with minimal code.
 
-## Features
+## Key Features
 
-- Automated data type detection (numerical, categorical, datetime)
-- Comprehensive univariate analysis for all data types
-- Correlation analysis with heatmaps
-- Bivariate analysis between different feature types
-- Datetime feature decomposition and analysis
-- Outlier detection using multiple methods
-- Customizable visualization options
+- **Automatic Data Type Detection**: Automatically categorizes features into numerical, categorical, and datetime types.
+- **Comprehensive Data Overview**: Quickly summarize dataset shape, data types, missing values, and memory usage.
+- **Missing Value Analysis**: Visualizes and reports missing data, highlighting areas needing attention.
+- **Advanced Univariate Analysis**:
+  - **Numerical Features**: Statistical summaries, normality tests, histograms, KDE plots, box plots, and Q-Q plots.
+  - **Categorical Features**: Counts, percentages, bar plots, and pie charts for clear categorical distribution analysis.
+  - **Datetime Features**: Time-series component analysis, including trends across years, months, weekdays, and hourly distributions.
+- **Correlation Analysis**: Provides correlation heatmaps and pair plots to uncover relationships between numerical features.
+- **Robust Bivariate Analysis**: Detailed plots and analyses for numerical-numerical and numerical-categorical feature interactions.
+- **Outlier Detection**: Implements Z-score and Interquartile Range (IQR) methods to identify outliers effectively.
 
 ## Installation
+
+Install `EDAPipeline` via pip:
 
 ```bash
 pip install edapipeline
 ```
 
-## Quick Start
+## Usage
+
+Here is a basic example demonstrating how to quickly set up and run a complete EDA analysis:
 
 ```python
-from edapipeline import EDAPipeline
 import pandas as pd
+from edapipeline import EDAPipeline
 
 # Load your dataset
-df = pd.read_csv('your_data.csv')
+df = pd.read_csv('your_dataset.csv')
 
 # Initialize the pipeline
-eda = EDAPipeline(df, target_col='your_target_column')
+eda = EDAPipeline(df=df, target_col='target_variable')
 
-# Run the complete analysis
-eda.run_complete_analysis()
+# Run the complete EDA analysis
+eda.run_complete_analysis(outlier_method='iqr')
+```
 
-# Or run specific analyses
+## Selective Analysis
+
+You can also perform selective analyses based on your needs:
+
+```python
+# Overview of dataset
 eda.data_overview()
+
+# Numerical feature analysis
 eda.analyze_numerical_features()
+
+# Categorical feature analysis
+eda.analyze_categorical_features()
+
+# Datetime analysis
+eda.analyze_datetime_features()
+
+# Correlation analysis
 eda.correlation_analysis()
+```
+
+## Advanced Customization
+
+The pipeline provides flexibility to configure various thresholds and parameters:
+
+```python
+eda.HIGH_CARDINALITY_THRESHOLD = 100
+eda.TOP_N_CATEGORIES = 10
+eda.detect_outliers(method='zscore', threshold=2.5)
 ```
 
 ## Dependencies
 
-- numpy
-- pandas
-- matplotlib
-- seaborn
-- scipy
+- NumPy
+- Pandas
+- Matplotlib
+- Seaborn
+- SciPy
 
-## Contributing
+Install all dependencies with:
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+```bash
+pip install numpy pandas matplotlib seaborn scipy
+```
+
+## Contributions
+
+Contributions and suggestions are welcome! Feel free to open issues or submit pull requests on GitHub.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-```
+`EDAPipeline` is open-source and available under the MIT License.
 
-### 2. Create a Basic __init__.py File
+---
 
-Edit your `src/edapipeline/__init__.py` file:
-
-```python
-"""EDAPipeline - Comprehensive EDA toolkit for data analysis."""
-
-from .core import EDAPipeline
-from .__version__ import __version__
-
-__all__ = ['EDAPipeline']
-```
-
+Explore your data effortlessly with **EDAPipeline**—turning data into actionable insights.
 
