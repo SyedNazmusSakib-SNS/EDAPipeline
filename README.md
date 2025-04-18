@@ -15,7 +15,6 @@
 - **Robust Bivariate Analysis**: Detailed plots and analyses for numerical-numerical and numerical-categorical feature interactions.
 - **Outlier Detection**: Implements Z-score and Interquartile Range (IQR) methods to identify outliers effectively.
 
-[![PyPI Downloads](https://static.pepy.tech/badge/edapipeline)](https://pepy.tech/projects/edapipeline)
 
 ## Installation
 
