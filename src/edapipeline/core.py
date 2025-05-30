@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -14,6 +15,8 @@ class EDAPipeline:
     TARGET_CARDINALITY_THRESHOLD = 10 # Max unique values in target for hue
 
     def __init__(self, df, numerical_cols=None, categorical_cols=None, datetime_cols=None, target_col=None):
+        self.output_dir = "eda_results"
+        os.makedirs(self.output_dir, exist_ok=True)
         self.df = df.copy() # Work on a copy to avoid modifying original df
         self.target_col = target_col
 
@@ -71,6 +74,8 @@ class EDAPipeline:
         missing_df = pd.DataFrame({'Count': missing_counts, 'Percentage': missing_perc})
         print(missing_df[missing_df['Count'] > 0].sort_values('Percentage', ascending=False).head(10))
 
+        print(f"\nNumber of duplicate rows: {self.df.duplicated().sum()}")
+
         # Memory usage
         memory_usage = self.df.memory_usage(deep=True).sum() / 1024**2
         print(f"\nMemory Usage: {memory_usage:.2f} MB")
@@ -94,6 +99,10 @@ class EDAPipeline:
             plt.figure(figsize=figsize)
             sns.heatmap(self.df.isnull(), yticklabels=False, cbar=True, cmap='viridis')
             plt.title('Missing Value Heatmap')
+            filename = "missing_value_heatmap.png"
+            full_path = os.path.join(self.output_dir, filename)
+            plt.savefig(full_path)
+            print(f"Plot saved to {full_path}")
             plt.show()
         else:
             print("\nNo missing values found in the dataset.")
@@ -156,6 +165,10 @@ class EDAPipeline:
 
 
             plt.tight_layout(rect=[0, 0.03, 1, 0.95]) # Adjust layout to prevent title overlap
+            filename = f"numerical_analysis_{col}.png"
+            full_path = os.path.join(self.output_dir, filename)
+            plt.savefig(full_path)
+            print(f"Plot saved to {full_path}")
             plt.show()
 
             # --- CDF Plot Removed as requested ---
@@ -200,6 +213,10 @@ class EDAPipeline:
                 plt.xlabel('Count')
                 plt.ylabel(col)
                 plt.tight_layout()
+                filename = f"categorical_medium_cardinality_{col}.png"
+                full_path = os.path.join(self.output_dir, filename)
+                plt.savefig(full_path)
+                print(f"Plot saved to {full_path}")
                 plt.show()
 
             else: # Low cardinality (< MEDIUM_CARDINALITY_THRESHOLD)
@@ -235,6 +252,10 @@ class EDAPipeline:
 
 
                 plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+                filename = f"categorical_low_cardinality_{col}.png"
+                full_path = os.path.join(self.output_dir, filename)
+                plt.savefig(full_path)
+                print(f"Plot saved to {full_path}")
                 plt.show()
 
     def analyze_datetime_features(self, figsize=(15, 10)):
@@ -294,6 +315,10 @@ class EDAPipeline:
             plt.title('Records by Hour of Day')
 
             plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+            filename = f"datetime_analysis_{col}.png"
+            full_path = os.path.join(self.output_dir, filename)
+            plt.savefig(full_path)
+            print(f"Plot saved to {full_path}")
             plt.show()
 
             # --- Plot against Target Variable (if applicable) ---
@@ -326,6 +351,10 @@ class EDAPipeline:
                  plt.ylabel(f'Average {self.target_col}')
 
                  plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+                 filename = f"datetime_vs_target_{self.target_col}_by_{col}.png"
+                 full_path = os.path.join(self.output_dir, filename)
+                 plt.savefig(full_path)
+                 print(f"Plot saved to {full_path}")
                  plt.show()
 
             # --- Clean up temporary columns ---
@@ -364,6 +393,10 @@ class EDAPipeline:
         plt.xticks(rotation=45, ha='right')
         plt.yticks(rotation=0)
         plt.tight_layout()
+        filename = "correlation_heatmap.png"
+        full_path = os.path.join(self.output_dir, filename)
+        plt.savefig(full_path)
+        print(f"Plot saved to {full_path}")
         plt.show()
 
         # Display correlations with the target variable (if defined and numerical)
@@ -387,6 +420,11 @@ class EDAPipeline:
                          diag_kind='kde', # Show density plots on diagonal
                          plot_kws={'alpha': 0.6}) # Make points slightly transparent
             plt.suptitle('Pair Plot of Numerical Features', y=1.02) # Adjust title position
+            filename = "correlation_pairplot.png"
+            full_path = os.path.join(self.output_dir, filename)
+            # Save before show, pairplot creates its own figure
+            plt.savefig(full_path)
+            print(f"Plot saved to {full_path}")
             plt.show()
         elif num_features_for_pairplot > 6:
             print("\nSkipping pair plot due to high number of numerical features (> 6). Consider `numerical_bivariate_analysis`.")
@@ -422,6 +460,10 @@ class EDAPipeline:
                 axes[1].tick_params(axis='x', rotation=45)
 
                 plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+                filename = f"categorical_bivariate_{num_col}_vs_{cat_col}.png"
+                full_path = os.path.join(self.output_dir, filename)
+                plt.savefig(full_path)
+                print(f"Plot saved to {full_path}")
                 plt.show()
 
     def numerical_bivariate_analysis(self, figsize=(8, 8)):
@@ -468,7 +510,14 @@ class EDAPipeline:
                  except ValueError:
                       pass # Handle cases with insufficient data for correlation
 
-                 plt.tight_layout()
+                 # tight_layout for jointplot is often tricky, g.fig.tight_layout() can be used
+                 # plt.tight_layout() # May not work as expected with jointplot
+                 g.fig.tight_layout(rect=[0, 0.03, 1, 0.95]) # Apply to the figure of jointplot
+                 filename = f"numerical_bivariate_{col1}_vs_{col2}.png"
+                 full_path = os.path.join(self.output_dir, filename)
+                 # Save before show, jointplot creates its own figure
+                 plt.savefig(full_path)
+                 print(f"Plot saved to {full_path}")
                  plt.show()
              except Exception as e:
                  print(f"Could not generate joint plot for '{col1}' vs '{col2}'. Error: {e}")
