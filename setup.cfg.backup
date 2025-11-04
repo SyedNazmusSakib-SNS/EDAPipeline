@@ -1,0 +1,31 @@
+[metadata]
+name = edapipeline
+version = attr: edapipeline.__version__
+author = Your Name
+author_email = your.email@example.com
+description = Comprehensive Exploratory Data Analysis Pipeline
+long_description = file: README.md
+long_description_content_type = text/markdown
+url = https://github.com/SyedNazmusSakib-SNS/EDAPipeline
+project_urls =
+    Bug Tracker = https://github.com/SyedNazmusSakib-SNS/EDAPipeline/issues
+classifiers =
+    Programming Language :: Python :: 3
+    Operating System :: OS Independent
+    Topic :: Scientific/Engineering :: Information Analysis
+    Topic :: Scientific/Engineering :: Visualization
+
+[options]
+package_dir =
+    = src
+packages = find:
+python_requires = >=3.7
+install_requires =
+    numpy
+    pandas
+    matplotlib
+    seaborn
+    scipy
+
+[options.packages.find]
+where = src

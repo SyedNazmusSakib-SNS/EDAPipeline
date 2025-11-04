@@ -1,4 +1,4 @@
-[metadata]
+﻿[metadata]
 name = edapipeline
 version = attr: edapipeline.__version__.__version__
 
