@@ -2,6 +2,7 @@ LICENSE
 README.md
 pyproject.toml
 setup.cfg
+setup.py
 src/edapipeline/__init__.py
 src/edapipeline/__version__.py
 src/edapipeline/core.py

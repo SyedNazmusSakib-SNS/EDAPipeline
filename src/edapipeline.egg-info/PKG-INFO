@@ -1,6 +1,6 @@
-Metadata-Version: 2.4
+Metadata-Version: 2.1
 Name: edapipeline
-Version: 0.1.0
+Version: 0.1.3
 Summary: Comprehensive Exploratory Data Analysis Pipeline
 Home-page: https://github.com/SyedNazmusSakib-SNS/EDAPipeline
 Author: Your Name
@@ -18,7 +18,6 @@ Requires-Dist: pandas
 Requires-Dist: matplotlib
 Requires-Dist: seaborn
 Requires-Dist: scipy
-Dynamic: license-file
 
 # EDAPipeline: Automated Exploratory Data Analysis Toolkit
 
@@ -36,6 +35,7 @@ Dynamic: license-file
 - **Correlation Analysis**: Provides correlation heatmaps and pair plots to uncover relationships between numerical features.
 - **Robust Bivariate Analysis**: Detailed plots and analyses for numerical-numerical and numerical-categorical feature interactions.
 - **Outlier Detection**: Implements Z-score and Interquartile Range (IQR) methods to identify outliers effectively.
+
 
 ## Installation
 
